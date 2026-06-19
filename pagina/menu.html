@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu</title>
+  <style>
+    :root {
+      --bg: #f3efe8;
+      --card: #ffffff;
+      --text: #1e1e1e;
+      --muted: #7b7770;
+      --line: #e8e2d8;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      --radius: 10px;
+    }
+
+     .menu-1 a {
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 10px;
+    display: flex;
+    text-decoration: none;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 18px;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .recipe-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .recipe-card {
+      display: grid;
+      grid-template-columns: 150px 1fr 30px;
+      align-items: stretch;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-height: 120px;
+    }
+
+    .thumb {
+      width: 150px;
+      height: 100%;
+      min-height: 120px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .content {
+      padding: 10px 12px 10px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: #171717;
+    }
+
+    .author-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #857f77;
+      margin-top: 2px;
+    }
+
+    .author-avatar {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex: 0 0 auto;
+    }
+
+    .source {
+      font-weight: 700;
+      color: #6d685f;
+    }
+
+    .ingredients {
+      margin: 0;
+      color: #8a857d;
+      font-size: 12px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12px;
+      color: #7f7971;
+      align-items: center;
+    }
+
+    .meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .bookmark {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 16px;
+      color: #222;
+    }
+
+    .bookmark svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.8;
+    }
+
+    .chef-icon {
+      width: 13px;
+      height: 13px;
+      vertical-align: -2px;
+      opacity: 0.95;
+    }
+
+    .clock-icon {
+      width: 13px;
+      height: 13px;
+      vertical-align: -2px;
+    }
+
+    @media (max-width: 620px) {
+      body {
+        padding: 10px;
+      }
+
+      .recipe-card {
+        grid-template-columns: 112px 1fr 26px;
+        min-height: 108px;
+      }
+
+      .thumb {
+        width: 112px;
+      }
+
+      .title {
+        font-size: 15px;
+      }
+
+      .content {
+        padding: 8px 10px 8px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="recipe-list" id="recipeList"></div>
+  </div>
+
+  <script>
+    const recipes = [
+      {
+        title: "Falsa mousse centollo en cucharitas",
+        source: "1 Cooksnap",
+        ingredients: "huevos cocidos · palitos de cangrejo · mejillones al natural escurridos · berberechos al natural escurridos · mayonesa · nata para cocinar · sal · cucharitas comestibles",
+        author: "Berta Álvarez",
+        authorImg: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=60&h=60&q=80",
+        time: "",
+        servings: "",
+        image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&h=360&q=80"
+      },
+      {
+        title: "Crema de centolla con crujiente de pan",
+        source: "",
+        ingredients: "Centollas cocidas · Cebollas medianas · Leche entera con calcio · Maicena · Sal · Pimienta negra · Nuez moscada · Aceite de oliva virgen extra · Pan rallado (previamente tostado ...)",
+        author: "Arianne",
+        authorImg: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=60&h=60&q=80",
+        time: "50 minutos (+ tiempo de extraer la carne)",
+        servings: "8-10 Comensales",
+        image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=500&h=360&q=80"
+      },
+      {
+        title: "Palta rellena con salpicón de centolla",
+        source: "",
+        ingredients: "carne de centolla cocida · cebolla morada cortada en cuadritos · pimiento morrón cortado en cuadritos · apio cortado en cuadritos · cilantro picado · mayonesa · mostaza a la piedra ...",
+        author: "Jon Michelena",
+        authorImg: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=60&h=60&q=80",
+        time: "30 minutos",
+        servings: "2 raciones",
+        image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&h=360&q=80"
+      },
+      {
+        title: "Tostadas de mariscos con crema suave",
+        source: "2 Cooksnaps",
+        ingredients: "mariscos mixtos · crema de leche · ajo picado · mantequilla · perejil fresco · sal · pimienta · pan tostado",
+        author: "Lucía Gómez",
+        authorImg: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=60&h=60&q=80",
+        time: "25 minutos",
+        servings: "4 porciones",
+        image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=500&h=360&q=80"
+      },
+      {
+        title: "Ensalada de camarones con aguacate",
+        source: "",
+        ingredients: "camarones cocidos · aguacate · tomate cherry · cebolla morada · limón · aceite de oliva · sal · cilantro",
+        author: "María Torres",
+        authorImg: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=60&h=60&q=80",
+        time: "20 minutos",
+        servings: "3 raciones",
+        image: "https://images.unsplash.com/photo-1551248429-40975aa4de74?auto=format&fit=crop&w=500&h=360&q=80"
+      },
+      {
+        title: "Ceviche de pescado clásico",
+        source: "1 Cooksnap",
+        ingredients: "pescado blanco · cebolla roja · limón · cilantro · ají · sal · pimienta · maíz tostado",
+        author: "Camilo Pérez",
+        authorImg: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=60&h=60&q=80",
+        time: "35 minutos",
+        servings: "4 raciones",
+        image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&h=360&q=80"
+      },
+      {
+        title: "Pasta cremosa con atún",
+        source: "",
+        ingredients: "pasta cocida · atún en agua · crema de leche · cebolla · ajo · sal · pimienta · queso rallado",
+        author: "Daniela Ríos",
+        authorImg: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=60&h=60&q=80",
+        time: "18 minutos",
+        servings: "2-3 porciones",
+        image: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=500&h=360&q=80"
+      },
+      {
+        title: "Arroz con mariscos",
+        source: "",
+        ingredients: "arroz · camarones · calamares · mejillones · cebolla · pimentón · ajo · caldo de pescado · aceite",
+        author: "Sofía Herrera",
+        authorImg: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=60&h=60&q=80",
+        time: "45 minutos",
+        servings: "5 raciones",
+        image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=500&h=360&q=80"
+      },
+      {
+        title: "Sopa de pescado casera",
+        source: "3 Cooksnaps",
+        ingredients: "pescado · papa · zanahoria · cebolla · tomate · ajo · laurel · sal · cilantro",
+        author: "Andrés Molina",
+        authorImg: "https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=60&h=60&q=80",
+        time: "40 minutos",
+        servings: "4 raciones",
+        image: "https://images.unsplash.com/photo-1496412705862-e0088f16f791?auto=format&fit=crop&w=500&h=360&q=80"
+      },
+      {
+        title: "Mini canapés con salmón ahumado",
+        source: "",
+        ingredients: "pan de molde · salmón ahumado · queso crema · eneldo · limón · pepino · sal · pimienta",
+        author: "Paula Castro",
+        authorImg: "https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&w=60&h=60&q=80",
+        time: "15 minutos",
+        servings: "12 unidades",
+        image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&h=360&q=80"
+      }
+    ];
+
+    const recipeList = document.getElementById('recipeList');
+
+    const bookmarkSvg = `
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5v16.2a.3.3 0 0 1-.49.23L12 16.6l-5.51 4.33a.3.3 0 0 1-.49-.23V4.5Z" stroke="currentColor" />
+      </svg>`;
+
+    const clockSvg = `
+      <svg class="clock-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="8.5" stroke="currentColor" />
+        <path d="M12 7.5V12l3 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>`;
+
+    const chefSvg = `
+      <svg class="chef-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M8 10.5c-1.7 0-3-1.3-3-3s1.3-3 3-3c.3 0 .6 0 .9.1C9.4 3.9 10.6 3 12 3s2.6.9 3.1 2.1c.3-.1.6-.1.9-.1 1.7 0 3 1.3 3 3s-1.3 3-3 3H8Z" fill="currentColor"/>
+        <path d="M7 11.5h10l-.8 7.2c-.1.8-.8 1.3-1.5 1.3H9.3c-.8 0-1.4-.6-1.5-1.3L7 11.5Z" fill="currentColor"/>
+      </svg>`;
+
+    function card(recipe) {
+      return `
+        <article class="recipe-card">
+          <img class="thumb" src="${recipe.image}" alt="${recipe.title}">
+          <div class="content">
+            <h2 class="title">${recipe.title}</h2>
+            ${recipe.source ? `<div class="author-row"><span class="source">${recipe.source}</span></div>` : ''}
+            <p class="ingredients">${recipe.ingredients}</p>
+            <div class="meta">
+              ${recipe.time ? `<span>${clockSvg}${recipe.time}</span>` : ''}
+              ${recipe.servings ? `<span><span class="chef-icon">${chefSvg}</span>${recipe.servings}</span>` : ''}
+              <span class="author-row" style="margin:0; gap:6px;">
+                <img class="author-avatar" src="${recipe.authorImg}" alt="${recipe.author}">
+                <span>${recipe.author}</span>
+              </span>
+            </div>
+          </div>
+          <div class="bookmark">${bookmarkSvg}</div>
+        </article>
+      `;
+    }
+
+    recipeList.innerHTML = recipes.map(card).join('');
+  </script>
+
+<br><br><br><br>
+<div class="menu-1">
+    <a href="index.php">Encabezado</a>
+<style>
+    .menu-1 a {
+    color: Black;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 10px;
+    display: flex;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+</style>
+
+
+</body>
+</html>
