@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Encabezadot</title>
+  <link rel="stylesheet" href="../estilo/style.css" />
+</head>
+<body>
+  <header>
+    <div class="Imagenindx">
+      <img src="../imagenes/d1.png" alt="No se pudo cargar la imagen">
+    </div>
+  </header>
+
+  <div class="Menu-1">
+    <nav>
+      <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+        <li><a href="ubicacion.html">Ubicacion</a></li>
+        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSerSymPriO3aLgfemaGIFAsyNweOQvYTPzgknWu0gEFuLi6_w/viewform?usp=publish-editor">Reservas</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <main>
+    <div class="slider-wrap">
+      <div class="slider">
+        <div class="slider-image">
+          <img id="slideImg" src="" alt="Producto">
+        </div>
+
+        <div class="slider-content">
+          <h2 class="slider-title" id="slideTitle"></h2>
+
+          <p class="slider-text" id="slideDesc"></p>
+
+          <div class="slider-meta" id="slideMeta"></div>
+        </div>
+      </div>
+
+      <div class="slider-controls">
+        <button class="arrow" id="prevBtn" aria-label="Anterior">‹</button>
+        <div id="dotsContainer"></div>
+        <button class="arrow" id="nextBtn" aria-label="Siguiente">›</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const slides = [
+      {
+        img: "../imagenes/d3.png",
+        title: "Centollo",
+        desc: "También conocido como Changurro o Txangurro, Cámbaro, Araña, Cranca, Pateiro, Bruño o Chango vielud. Es un crustáceo braquiuro y decápodo. Pertenece a la familia Mijillida, la misma que los cangrejos.",
+        meta: [
+          ["Nombre", "Centollo"],
+          ["Origen", "Mar del norte"],
+          ["Peso", "500 gr - 4 kg"],
+          ["Dimensiones", "12 - 20 cm"]
+        ]
+      },
+      {
+        img: "../imagenes/d4.png",
+        title: "Langosta",
+        desc: "Crustáceo marino muy apreciado por su sabor y textura. Vive en fondos rocosos y zonas costeras.",
+        meta: [
+          ["Nombre", "Langosta"],
+          ["Origen", "Océano Atlántico"],
+          ["Peso", "1 - 3 kg"],
+          ["Dimensiones", "20 - 40 cm"]
+        ]
+      },
+      {
+        img: "../imagenes/d5.png",
+        title: "Cangrejo",
+        desc: "Crustáceo de caparazón duro y patas laterales. Es común en muchas costas del mundo.",
+        meta: [
+          ["Nombre", "Cangrejo"],
+          ["Origen", "Costas tropicales"],
+          ["Peso", "200 gr - 2 kg"],
+          ["Dimensiones", "8 - 18 cm"]
+        ]
+      },
+      {
+        img: "../imagenes/d6.jpg",
+        title: "Gamba",
+        desc: "Marisco pequeño y muy consumido en cocina mediterránea, con sabor suave y textura delicada.",
+        meta: [
+          ["Nombre", "Gamba"],
+          ["Origen", "Mar Mediterráneo"],
+          ["Peso", "50 gr - 300 gr"],
+          ["Dimensiones", "4 - 10 cm"]
+        ]
+      },
+      {
+        img: "../imagenes/d7.png",
+        title: "Buey de mar",
+        desc: "Crustáceo de gran tamaño, con carne muy sabrosa y muy valorado en platos gourmet.",
+        meta: [
+          ["Nombre", "Buey de mar"],
+          ["Origen", "Océano Atlántico"],
+          ["Peso", "1 - 5 kg"],
+          ["Dimensiones", "15 - 30 cm"]
+        ]
+      }
+    ];
+
+    const img = document.getElementById("slideImg");
+    const title = document.getElementById("slideTitle");
+    const desc = document.getElementById("slideDesc");
+    const meta = document.getElementById("slideMeta");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const dotsContainer = document.getElementById("dotsContainer");
+
+    let currentIndex = 0;
+    let dots = [];
+
+    function createDots() {
+      dotsContainer.innerHTML = "";
+      dots = [];
+
+      slides.forEach((_, index) => {
+        const dot = document.createElement("button");
+        dot.className = "dot" + (index === 0 ? " active" : "");
+        dot.setAttribute("aria-label", `Diapositiva ${index + 1}`);
+
+        dot.addEventListener("click", () => {
+          currentIndex = index;
+          renderSlide(currentIndex);
+        });
+
+        dotsContainer.appendChild(dot);
+        dots.push(dot);
+      });
+    }
+
+    function renderSlide(index) {
+      const slide = slides[index];
+
+      img.style.opacity = 0;
+
+      setTimeout(() => {
+        img.src = slide.img;
+        img.alt = slide.title;
+        img.style.opacity = 1;
+      }, 180);
+
+      title.textContent = slide.title;
+      desc.textContent = slide.desc;
+
+      meta.innerHTML = slide.meta
+        .map(([label, value]) => `<div><strong>${label}:</strong> ${value}</div>`)
+        .join("");
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+    }
+
+    prevBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      renderSlide(currentIndex);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      renderSlide(currentIndex);
+    });
+
+    createDots();
+    renderSlide(currentIndex);
+  </script>
+
+
+  <footer>
+  <img src="../imagenes/d10.png" alt="Footer" width="50%" height="50%">
+</footer>
+  
+
+
+<style>
+.pie {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+</style>
+</body>
+</html>
